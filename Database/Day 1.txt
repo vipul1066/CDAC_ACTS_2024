@@ -1,0 +1,535 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dac                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database acts;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use acts;
+Database changed
+mysql> create table vehicle(  vid int,  vname varchar(20),  price int,  discount int,  milage int,  details varchar(40));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into vehicle (
+    -> values(1, "Activa", 80000, 10, 35, "Two Wheeler. Sturdy.Milage 30 km"),
+    -> values(2, "Santro", 95000, 20, 20, "Product of Hyandai"),
+    -> values(3, "Yamaha", 160000, 5, 70, "Sturdy and good milage"),
+    -> values(4, "i-10", 300000, 8, 18, "Good small car"),
+    -> values(5, "WaganR", 250000, 10, 25, "Good milage"),
+    -> values(6, "Hero Splendor", 75000, 9, 65, "Best bike"),
+    -> values(7, "Royal Enfild", 190000, 5, 40, "a Royal bile")
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(1, "Activa", 80000, 10, 35, "Two Wheeler. Sturdy.Milage 30 km"),
+values(2, "San' at line 2
+mysql> INSERT INTO vehicle (id, name, price, quantity, mileage, description)
+    -> VALUES
+    -> (1, "Activa", 80000, 10, 35, "Two Wheeler. Sturdy. Milage 30 km"),
+    -> (2, "Santro", 95000, 20, 20, "Product of Hyandai"),
+    -> (3, "Yamaha", 160000, 5, 70, "Sturdy and good mileage"),
+    -> (4, "i-10", 300000, 8, 18, "Good small car"),
+    -> (5, "WagonR", 250000, 10, 25, "Good mileage"),
+    -> (6, "Hero Splendor", 75000, 9, 65, "Best bike"),
+    -> (7, "Royal Enfield", 190000, 5, 40, "A Royal bike");
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> INSERT INTO vehicle (vid, vname, price, discount, milage, details)
+    -> VALUES
+    -> (1, "Activa", 80000, 10, 35, "Two Wheeler. Sturdy. Milage 30 km"),
+    -> (2, "Santro", 95000, 20, 20, "Product of Hyandai"),
+    -> (3, "Yamaha", 160000, 5, 70, "Sturdy and good mileage"),
+    -> (4, "i-10", 300000, 8, 18, "Good small car"),
+    -> (5, "WagonR", 250000, 10, 25, "Good mileage"),
+    -> (6, "Hero Splendor", 75000, 9, 65, "Best bike"),
+    -> (7, "Royal Enfield", 190000, 5, 40, "A Royal bike");
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++----------------+
+| Tables_in_acts |
++----------------+
+| vehicle        |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> use vehicle;
+ERROR 1049 (42000): Unknown database 'vehicle'
+mysql> select * from vehicle;
++------+---------------+--------+----------+--------+-----------------------------------+
+| vid  | vname         | price  | discount | milage | details                           |
++------+---------------+--------+----------+--------+-----------------------------------+
+|    1 | Activa        |  80000 |       10 |     35 | Two Wheeler. Sturdy. Milage 30 km |
+|    2 | Santro        |  95000 |       20 |     20 | Product of Hyandai                |
+|    3 | Yamaha        | 160000 |        5 |     70 | Sturdy and good mileage           |
+|    4 | i-10          | 300000 |        8 |     18 | Good small car                    |
+|    5 | WagonR        | 250000 |       10 |     25 | Good mileage                      |
+|    6 | Hero Splendor |  75000 |        9 |     65 | Best bike                         |
+|    7 | Royal Enfield | 190000 |        5 |     40 | A Royal bike                      |
++------+---------------+--------+----------+--------+-----------------------------------+
+7 rows in set (0.00 sec)
+
+mysql> create table customer(custid int, cname varchar(15), location varchar(12));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_acts |
++----------------+
+| customer       |
+| vehicle        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> INSERT INTO customer ( custid, cname, location)
+    -> VALUES
+    -> (1, "Nilima", "Primpri"),
+    -> (2, "Ganesh", "Pune"),
+    -> (3, "Kishor", "Kothrud"),
+    -> (4, "Priya", "Aundh");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      1 | Nilima | Primpri  |
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
++--------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> create table salesman(sid int, sname varchar(12), city varchar(12), experience int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into salesman( sid, sname, city, experience)
+    -> values
+    -> (10, "Rajesh", "mumbai", 5),
+    -> (11, "Seema", "Pune", 8),
+    -> (12, "Shailesh", "Nagpur", 7),
+    -> (13, "Rakhi", "Pune", 2);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++----------------+
+| Tables_in_acts |
++----------------+
+| customer       |
+| salesman       |
+| vehicle        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from salesman;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   10 | Rajesh   | mumbai |          5 |
+|   11 | Seema    | Pune   |          8 |
+|   12 | Shailesh | Nagpur |          7 |
+|   13 | Rakhi    | Pune   |          2 |
++------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+*******************************************************************************
+Q1. Display names of salesmen who work in Pune. 
+mysql> select sname from salesman where city = "Pune";
++-------+
+| sname |
++-------+
+| Seema |
+| Rakhi |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      1 | Nilima | Primpri  |
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
++--------+--------+----------+
+4 rows in set (0.00 sec)
+
+2. Delete customer from Pimpri area.
+
+mysql> delete from customer where location = "Primpri";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
++--------+--------+----------+
+3 rows in set (0.00 sec)
+
+3. Add some new customers 
+ 'Geeta' with custid 5 and area as 'Pimpri'. 
+ 'Raj'   with custid 6 and area as 'Aundh'  
+ 'Yash'  with custid 7 and area as 'Aundh'
+
+mysql> INSERT INTO customer ( custid, cname, location)
+    -> VALUES
+    -> (5, "Geeta", "Primpri"),
+    -> (6, "Raj", "Aundh"),
+    -> (7, "Yash", "Aundh");
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
+|      5 | Geeta  | Primpri  |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+6 rows in set (0.00 sec)
+
+4. Delete customer from area Aundh whose name is Priya. 
+
+mysql> delete from customer where location = "Aundh" and cname = "Priya";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      5 | Geeta  | Primpri  |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from vehicle;
++------+---------------+--------+----------+--------+-----------------------------------+
+| vid  | vname         | price  | discount | milage | details                           |
++------+---------------+--------+----------+--------+-----------------------------------+
+|    1 | Activa        |  80000 |       10 |     35 | Two Wheeler. Sturdy. Milage 30 km |
+|    2 | Santro        |  95000 |       20 |     20 | Product of Hyandai                |
+|    3 | Yamaha        | 160000 |        5 |     70 | Sturdy and good mileage           |
+|    4 | i-10          | 300000 |        8 |     18 | Good small car                    |
+|    5 | WagonR        | 250000 |       10 |     25 | Good mileage                      |
+|    6 | Hero Splendor |  75000 |        9 |     65 | Best bike                         |
+|    7 | Royal Enfield | 190000 |        5 |     40 | A Royal bike                      |
++------+---------------+--------+----------+--------+-----------------------------------+
+7 rows in set (0.00 sec)
+
+5. Display information of vehicle , Royal Enfild.
+
+
+mysql> select * from vehicle where vname = "Royal Enfield";
++------+---------------+--------+----------+--------+--------------+
+| vid  | vname         | price  | discount | milage | details      |
++------+---------------+--------+----------+--------+--------------+
+|    7 | Royal Enfield | 190000 |        5 |     40 | A Royal bike |
++------+---------------+--------+----------+--------+--------------+
+1 row in set (0.00 sec)
+
+6. Display information of all Bikes.
+
+mysql> select * from vehicle;
++------+---------------+--------+----------+--------+-----------------------------------+
+| vid  | vname         | price  | discount | milage | details                           |
++------+---------------+--------+----------+--------+-----------------------------------+
+|    1 | Activa        |  80000 |       10 |     35 | Two Wheeler. Sturdy. Milage 30 km |
+|    2 | Santro        |  95000 |       20 |     20 | Product of Hyandai                |
+|    3 | Yamaha        | 160000 |        5 |     70 | Sturdy and good mileage           |
+|    4 | i-10          | 300000 |        8 |     18 | Good small car                    |
+|    5 | WagonR        | 250000 |       10 |     25 | Good mileage                      |
+|    6 | Hero Splendor |  75000 |        9 |     65 | Best bike                         |
+|    7 | Royal Enfield | 190000 |        5 |     40 | A Royal bike                      |
++------+---------------+--------+----------+--------+-----------------------------------+
+7 rows in set (0.00 sec)
+
+7. If buying price of the vehicle is 75000 then change it to 80000.
+
+mysql> update vehicle set price = 80000 where price = 75000;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from vehicle;
++------+---------------+--------+----------+--------+-----------------------------------+
+| vid  | vname         | price  | discount | milage | details                           |
++------+---------------+--------+----------+--------+-----------------------------------+
+|    1 | Activa        |  80000 |       10 |     35 | Two Wheeler. Sturdy. Milage 30 km |
+|    2 | Santro        |  95000 |       20 |     20 | Product of Hyandai                |
+|    3 | Yamaha        | 160000 |        5 |     70 | Sturdy and good mileage           |
+|    4 | i-10          | 300000 |        8 |     18 | Good small car                    |
+|    5 | WagonR        | 250000 |       10 |     25 | Good mileage                      |
+|    6 | Hero Splendor |  80000 |        9 |     65 | Best bike                         |
+|    7 | Royal Enfield | 190000 |        5 |     40 | A Royal bike                      |
++------+---------------+--------+----------+--------+-----------------------------------+
+7 rows in set (0.00 sec)
+
+8. Display information of vehicle i-10.
+
+mysql> select * from vehicle where vname = "i-10";
++------+-------+--------+----------+--------+----------------+
+| vid  | vname | price  | discount | milage | details        |
++------+-------+--------+----------+--------+----------------+
+|    4 | i-10  | 300000 |        8 |     18 | Good small car |
++------+-------+--------+----------+--------+----------------+
+1 row in set (0.00 sec)
+
+mysql> select vid, vname, price, details, total price(price-discount) from vehicle;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(price-discount) from vehicle' at line 1
+
+9. Display vid, vname, price, details and total price for each vehicle. total price = price - discount
+
+mysql> select vid, vname, price, details, (price - discount) as total_price from vehicle;
++------+---------------+--------+-----------------------------------+-------------+
+| vid  | vname         | price  | details                           | total_price |
++------+---------------+--------+-----------------------------------+-------------+
+|    1 | Activa        |  80000 | Two Wheeler. Sturdy. Milage 30 km |       79990 |
+|    2 | Santro        |  95000 | Product of Hyandai                |       94980 |
+|    3 | Yamaha        | 160000 | Sturdy and good mileage           |      159995 |
+|    4 | i-10          | 300000 | Good small car                    |      299992 |
+|    5 | WagonR        | 250000 | Good mileage                      |      249990 |
+|    6 | Hero Splendor |  80000 | Best bike                         |       79991 |
+|    7 | Royal Enfield | 190000 | A Royal bike                      |      189995 |
++------+---------------+--------+-----------------------------------+-------------+
+7 rows in set (0.00 sec)
+
+10. Display all vehicles whose price is less than 100000.
+
+mysql> select * from vehicle where price<100000;
++------+---------------+-------+----------+--------+-----------------------------------+
+| vid  | vname         | price | discount | milage | details                           |
++------+---------------+-------+----------+--------+-----------------------------------+
+|    1 | Activa        | 80000 |       10 |     35 | Two Wheeler. Sturdy. Milage 30 km |
+|    2 | Santro        | 95000 |       20 |     20 | Product of Hyandai                |
+|    6 | Hero Splendor | 80000 |        9 |     65 | Best bike                         |
++------+---------------+-------+----------+--------+-----------------------------------+
+3 rows in set (0.00 sec)
+
+11. Display all the information of salesmen having experience more than 5 years.
+
+mysql> select * from salesman where experience>5;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   11 | Seema    | Pune   |          8 |
+|   12 | Shailesh | Nagpur |          7 |
++------+----------+--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> create table salesman1(sid int, sname varchar(12), city varchar(12), experience int)
+    -> ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * into salesman1 from salesman;
+ERROR 1327 (42000): Undeclared variable: salesman1
+
+
+12. Create a copy of table salesman as salesman1.
+
+
+mysql> insert into salesman1 (sid, sname, city, experience)
+    -> SELECT sid, sname, city, experience
+    -> from salesman;
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman1;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   10 | Rajesh   | mumbai |          5 |
+|   11 | Seema    | Pune   |          8 |
+|   12 | Shailesh | Nagpur |          7 |
+|   13 | Rakhi    | Pune   |          2 |
++------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> create table employee( eno int, ename varchar(15), basic int, incentives int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into employee (eno, ename, basic, incentives)
+    -> values (1, "Rajesh", 20000, 1500),
+    -> values (2, "Sarita", 25000, 1000),
+    -> values (3, "Meera", 15000, 3000),
+    -> values (4, "Jitesh", 30000, 500),
+    -> values (5, "Ramesh", 12000, 3000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values (2, "Sarita", 25000, 1000),
+values (3, "Meera", 15000, 3000),
+values (4, ' at line 3
+
+
+13. For the given schema, create the table and solve following queries
+
+employee(eno, ename, basic, incentives)  
+
+mysql> insert into employee (eno, ename, basic, incentives)
+    -> values
+    -> (1, "Rajesh", 20000, 1500),
+    -> (2, "Sarita", 25000, 1000),
+    -> (3, "Meera", 15000, 3000),
+    -> (4, "Jitesh", 30000, 500),
+    -> (5, "Ramesh", 12000, 3000);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    3 | Meera  | 15000 |       3000 |
+|    4 | Jitesh | 30000 |        500 |
+|    5 | Ramesh | 12000 |       3000 |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+
+ 1. List all employees having basic>15000
+
+mysql> select * from employee where basic>15000;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    4 | Jitesh | 30000 |        500 |
++------+--------+-------+------------+
+3 rows in set (0.00 sec)
+
+2. Change incentive of Jitesh to 1000.
+
+mysql> update employee set incentives = 1000 where ename = "Jitesh";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    3 | Meera  | 15000 |       3000 |
+|    4 | Jitesh | 30000 |       1000 |
+|    5 | Ramesh | 12000 |       3000 |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+ 3. Increase the salary of all employees by 5% who are earning less than 20000 as a basic pay. Update in the table.
+
+mysql> update employee set basic=basic +  basic * (5/100) where basic< 20000;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    3 | Meera  | 15750 |       3000 |
+|    4 | Jitesh | 30000 |       1000 |
+|    5 | Ramesh | 12600 |       3000 |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee(eno,ename,basic,incentives)
+    -> values(20,"Ajay",16000);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+
+
+ 4. New employee Ajay joins the firm. His eno is 20, basic is 16000 and he is not eligible for incentives. Store this information in  
+    table.
+
+mysql> insert into employee(eno,ename,basic,incentives)
+    -> values(20,"Ajay", 16000, null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    3 | Meera  | 15750 |       3000 |
+|    4 | Jitesh | 30000 |       1000 |
+|    5 | Ramesh | 12600 |       3000 |
+|   20 | Ajay   | 16000 |       NULL |
++------+--------+-------+------------+
+6 rows in set (0.00 sec)
+
+ 5. Meera leaves the company. Make necessary changes in table.
+ 
+
+mysql> delete from employee where name="Meera";
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> delete from employee where ename="Meera";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    4 | Jitesh | 30000 |       1000 |
+|    5 | Ramesh | 12600 |       3000 |
+|   20 | Ajay   | 16000 |       NULL |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set basic = 60000 where name = "Ramesh";
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+
+ 6. Ramesh is promoted as Head Clerk and now earns salary as 60000. Write a query.  
+
+mysql> update employee set basic = 60000 where ename = "Ramesh";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | Rajesh | 20000 |       1500 |
+|    2 | Sarita | 25000 |       1000 |
+|    4 | Jitesh | 30000 |       1000 |
+|    5 | Ramesh | 60000 |       3000 |
+|   20 | Ajay   | 16000 |       NULL |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+mysql>

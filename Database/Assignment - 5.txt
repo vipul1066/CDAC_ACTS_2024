@@ -1,0 +1,165 @@
+Assignment 5
+
+mysql> create table trans(tid int ,custid int, vid int, sid int, buy_price float,
+    ->      constraint pk_transid primary key(tid),
+    ->      constraint fk_cid foreign key(custid) references customer(custid),
+    ->      constraint fk_vid foreign key(vid) references vehicle(vid),
+    ->      constraint fk_sid foreign key(sid) references salesman(sid));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into trans values
+    -> (1,2,1,10,90000),
+    -> (2,7,7,11,200000),
+    -> (3,5,2,12,1000000),
+    -> (4,3,3,13,160000);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from trans;
++-----+--------+------+------+-----------+
+| tid | custid | vid  | sid  | buy_price |
++-----+--------+------+------+-----------+
+|   1 |      2 |    1 |   10 |     90000 |
+|   2 |      7 |    7 |   11 |    200000 |
+|   3 |      5 |    2 |   12 |   1000000 |
+|   4 |      3 |    3 |   13 |    160000 |
++-----+--------+------+------+-----------+
+4 rows in set (0.00 sec)
+--------------------------------------------------------------------
+Q-1. Display tid,custid,customer name and buy_price.
+mysql> select t.tid, c.custid,c.cname,t.buy_price
+    -> from trans t, customer c
+    -> where t.custid = c.custid;
++-----+--------+--------+-----------+
+| tid | custid | cname  | buy_price |
++-----+--------+--------+-----------+
+|   1 |      2 | Ganesh |     90000 |
+|   2 |      7 | Yash   |    200000 |
+|   3 |      5 | Geeta  |   1000000 |
+|   4 |      3 | Kishor |    160000 |
++-----+--------+--------+-----------+
+4 rows in set (0.00 sec)
+
+
+
+
+2.Dispaly tid,custid,customer name,vid,vehicle name, sid, salesmen name and buy_price for vehicle.
+mysql> select t.tid,c.custid,c.cname,v.vid,v.vname,s.sid,s.sname,t.buy_price
+    -> from trans t, customer c, vehicle v, salesman s
+    -> where t.custid=c.custid and t.vid=v.vid and t.sid=s.sid;
++-----+--------+--------+------+---------------+------+----------+-----------+
+| tid | custid | cname  | vid  | vname         | sid  | sname    | buy_price |
++-----+--------+--------+------+---------------+------+----------+-----------+
+|   1 |      2 | Ganesh |    1 | Activa        |   10 | Rajesh   |     90000 |
+|   2 |      7 | Yash   |    7 | Royal Enfield |   11 | Seema    |    200000 |
+|   3 |      5 | Geeta  |    2 | Santro        |   12 | Shailesh |   1000000 |
+|   4 |      3 | Kishor |    3 | Yamaha        |   13 | Rakhi    |    160000 |
++-----+--------+--------+------+---------------+------+----------+-----------+
+4 rows in set (0.00 sec)
+
+
+Consider emp, dept and salgrade tables to answer following queries.
+
+1.List details of employees as ename,deptno,dname,sal,comm. 
+mysql> select e.ename,d.deptno,d.dname,e.sal,e.comm
+    -> from emp e, dept d
+    -> where e.deptno=d.deptno;
++--------+--------+------------+---------+---------+
+| ename  | deptno | dname      | sal     | comm    |
++--------+--------+------------+---------+---------+
+| SMITH  |     20 | RESEARCH   |  880.00 |    NULL |
+| ALLEN  |     30 | SALES      | 1760.00 |  300.00 |
+| WARD   |     30 | SALES      | 1375.00 |  500.00 |
+| JONES  |     20 | RESEARCH   | 3272.50 |    NULL |
+| MARTIN |     30 | SALES      | 1375.00 | 1400.00 |
+| BLAKE  |     30 | SALES      | 3135.00 |    NULL |
+| CLARK  |     10 | ACCOUNTING | 3099.25 |    NULL |
+| SCOTT  |     20 | RESEARCH   | 3300.00 |    NULL |
+| KING   |     10 | ACCOUNTING | 6325.00 |    NULL |
+| TURNER |     30 | SALES      | 1650.00 |    0.00 |
+| ADAMS  |     20 | RESEARCH   | 1210.00 |    NULL |
+| JAMES  |     30 | SALES      | 1045.00 |    NULL |
+| FORD   |     20 | RESEARCH   | 3300.00 |    NULL |
+| MILLER |     10 | ACCOUNTING | 1644.50 |    NULL |
++--------+--------+------------+---------+---------+
+14 rows in set (0.00 sec)
+   
+2. Display details of employees as empno,ename,sal,job, deptno and dept name for all employees working as a clerk or salesman and earning  
+mysql> select e.empno,e.ename,e.sal,e.job,d.deptno,d.dname
+    -> from emp e,dept d
+    -> where e.deptno=d.deptno and job in ("clerk","salesman");
++-------+--------+---------+----------+--------+------------+
+| empno | ename  | sal     | job      | deptno | dname      |
++-------+--------+---------+----------+--------+------------+
+|  7934 | MILLER | 1644.50 | CLERK    |     10 | ACCOUNTING |
+|  7876 | ADAMS  | 1210.00 | CLERK    |     20 | RESEARCH   |
+|  7369 | SMITH  |  880.00 | CLERK    |     20 | RESEARCH   |
+|  7900 | JAMES  | 1045.00 | CLERK    |     30 | SALES      |
+|  7844 | TURNER | 1650.00 | SALESMAN |     30 | SALES      |
+|  7654 | MARTIN | 1375.00 | SALESMAN |     30 | SALES      |
+|  7521 | WARD   | 1375.00 | SALESMAN |     30 | SALES      |
+|  7499 | ALLEN  | 1760.00 | SALESMAN |     30 | SALES      |
++-------+--------+---------+----------+--------+------------+
+8 rows in set (0.00 sec)
+
+
+3. List details of employees as ename,deptno,dname,sal,comm working in dept 20 and 30 who did not get any commission.   
+mysql> select e.ename,d.deptno,d.dname,e.sal,e.comm
+    -> from emp e, dept d
+    -> where e.deptno=d.deptno and e.deptno in (20,30) and comm is null;
++-------+--------+----------+---------+------+
+| ename | deptno | dname    | sal     | comm |
++-------+--------+----------+---------+------+
+| FORD  |     20 | RESEARCH | 3300.00 | NULL |
+| ADAMS |     20 | RESEARCH | 1210.00 | NULL |
+| SCOTT |     20 | RESEARCH | 3300.00 | NULL |
+| JONES |     20 | RESEARCH | 3272.50 | NULL |
+| SMITH |     20 | RESEARCH |  880.00 | NULL |
+| JAMES |     30 | SALES    | 1045.00 | NULL |
+| BLAKE |     30 | SALES    | 3135.00 | NULL |
++-------+--------+----------+---------+------+
+7 rows in set (0.00 sec)
+
+ 
+4. Display ename,sal and grade of employee(use salgrade table).
+mysql> select e.ename, e.sal, s.grade
+    -> from emp e,salgrade s
+    -> where e.sal between s.losal and s.hisal;
++--------+---------+-------+
+| ename  | sal     | grade |
++--------+---------+-------+
+| SMITH  |  880.00 |     1 |
+| ALLEN  | 1760.00 |     3 |
+| WARD   | 1375.00 |     2 |
+| JONES  | 3272.50 |     5 |
+| MARTIN | 1375.00 |     2 |
+| BLAKE  | 3135.00 |     5 |
+| CLARK  | 3099.25 |     5 |
+| SCOTT  | 3300.00 |     5 |
+| KING   | 6325.00 |     5 |
+| TURNER | 1650.00 |     3 |
+| ADAMS  | 1210.00 |     2 |
+| JAMES  | 1045.00 |     1 |
+| FORD   | 3300.00 |     5 |
+| MILLER | 1644.50 |     3 |
++--------+---------+-------+
+14 rows in set (0.00 sec)
+
+
+ 
+5. Display the information of department i.e deptno, dname and loc in which clerks are working. 
+ 
+mysql> SELECT e.deptno, d.dname, d.loc
+    -> FROM dept d, emp e
+    -> WHERE d.deptno = e.deptno AND e.job = 'clerk';
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+

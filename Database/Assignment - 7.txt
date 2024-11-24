@@ -1,0 +1,119 @@
+1. List sum of salary for each department.
+
+mysql> select deptno, sum(sal) from emp
+    -> group by deptno;
++--------+----------+
+| deptno | sum(sal) |
++--------+----------+
+|     20 | 10875.00 |
+|     30 |  9400.00 |
+|     10 |  8750.00 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+
+
+2. List department wise sum sal only if the sum for any department is  > 10000.
+
+mysql> select deptno, sum(sal) from emp
+    -> group by deptno
+    -> having sum(sal)>10000;
++--------+----------+
+| deptno | sum(sal) |
++--------+----------+
+|     20 | 10875.00 |
++--------+----------+
+1 row in set (0.00 sec)
+ 
+
+3. Display job wise sum of salary for all departments except dept 30   if the sum salary is >9000.
+
+mysql> select job,sum(sal) from emp
+    -> where deptno != 30
+    -> group by job
+    -> having sum(sal)>9000;
+Empty set (0.00 sec)
+
+
+4. Display job wise max sal only for managers, clerks, salesman working in dept 10 and 20. Sort the data by des order of the max salary.
+
+mysql> select job, max(sal) from emp
+    -> where job in ("manager","clerk","salesman") and deptno in (10,20)
+    -> group by job
+    -> order by max(sal) desc;
++---------+----------+
+| job     | max(sal) |
++---------+----------+
+| MANAGER |  2975.00 |
+| CLERK   |  1300.00 |
++---------+----------+
+2 rows in set (0.00 sec)
+
+
+5.Display job wise number of employees in all the department with total salary > 3000
+
+mysql> select job, count(*) from emp
+    -> group by job
+    -> having sum(sal)>3000;
++-----------+----------+
+| job       | count(*) |
++-----------+----------+
+| CLERK     |        4 |
+| SALESMAN  |        4 |
+| MANAGER   |        3 |
+| ANALYST   |        2 |
+| PRESIDENT |        1 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+
+6.Display the department number having atleast 3 employees in it.
+
+mysql> select deptno from emp
+    -> group by deptno
+    -> having count(deptno)>3;
++--------+
+| deptno |
++--------+
+|     20 |
+|     30 |
++--------+
+2 rows in set (0.00 sec)
+
+
+8. Display deptno, salary sum and min(sum) for all employees who are managers.
+
+mysql> select deptno,sum(sal),min(sal) from emp
+    -> where job="manager"
+    -> group by deptno;
++--------+----------+----------+
+| deptno | sum(sal) | min(sal) |
++--------+----------+----------+
+|     20 |  2975.00 |  2975.00 |
+|     30 |  2850.00 |  2850.00 |
+|     10 |  2450.00 |  2450.00 |
++--------+----------+----------+
+3 rows in set (0.00 sec)
+
+
+9.Find sum(sal) for each dept having more than 2 clerk. 
+   
+mysql> select deptno, sum(sal) from emp
+    -> where job="clerk"
+    -> group by deptno
+    -> having count(*)>2;
+Empty set (0.00 sec)
+
+10.Calculate how many employees earn sal more than 1500 in each dept.
+
+mysql> select deptno,count(*) from emp
+    -> where sal>1500
+    -> group by deptno;
++--------+----------+
+| deptno | count(*) |
++--------+----------+
+|     30 |        2 |
+|     20 |        3 |
+|     10 |        2 |
++--------+----------+
+3 rows in set (0.00 sec)

@@ -1,0 +1,149 @@
+
+1. Display all empno,ename,deptno,sal,avg(sal),min(sal), max(sal).
+
+mysql> select empno,ename,deptno,sal,avg(sal) over(),min(sal) over(),max(sal) over() from emp;
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+| empno | ename  | deptno | sal     | avg(sal) over() | min(sal) over() | max(sal) over() |
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+|  7369 | SMITH  |     20 |  800.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7499 | ALLEN  |     30 | 1600.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7521 | WARD   |     30 | 1250.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7566 | JONES  |     20 | 2975.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7654 | MARTIN |     30 | 1250.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7698 | BLAKE  |     30 | 2850.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7782 | CLARK  |     10 | 2450.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7788 | SCOTT  |     20 | 3000.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7839 | KING   |     10 | 5000.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7844 | TURNER |     30 | 1500.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7876 | ADAMS  |     20 | 1100.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7900 | JAMES  |     30 |  950.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7902 | FORD   |     20 | 3000.00 |     2073.214286 |          800.00 |         5000.00 |
+|  7934 | MILLER |     10 | 1300.00 |     2073.214286 |          800.00 |         5000.00 |
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+14 rows in set (0.00 sec)
+
+
+
+2. Write a query to display maximum salary, minimum salary and average sal along with emp name and deptno for all departments.
+
+mysql> select max(sal) over(), min(sal) over(), avg(sal) over(), ename, deptno from emp;
++-----------------+-----------------+-----------------+--------+--------+
+| max(sal) over() | min(sal) over() | avg(sal) over() | ename  | deptno |
++-----------------+-----------------+-----------------+--------+--------+
+|         5000.00 |          800.00 |     2073.214286 | SMITH  |     20 |
+|         5000.00 |          800.00 |     2073.214286 | ALLEN  |     30 |
+|         5000.00 |          800.00 |     2073.214286 | WARD   |     30 |
+|         5000.00 |          800.00 |     2073.214286 | JONES  |     20 |
+|         5000.00 |          800.00 |     2073.214286 | MARTIN |     30 |
+|         5000.00 |          800.00 |     2073.214286 | BLAKE  |     30 |
+|         5000.00 |          800.00 |     2073.214286 | CLARK  |     10 |
+|         5000.00 |          800.00 |     2073.214286 | SCOTT  |     20 |
+|         5000.00 |          800.00 |     2073.214286 | KING   |     10 |
+|         5000.00 |          800.00 |     2073.214286 | TURNER |     30 |
+|         5000.00 |          800.00 |     2073.214286 | ADAMS  |     20 |
+|         5000.00 |          800.00 |     2073.214286 | JAMES  |     30 |
+|         5000.00 |          800.00 |     2073.214286 | FORD   |     20 |
+|         5000.00 |          800.00 |     2073.214286 | MILLER |     10 |
++-----------------+-----------------+-----------------+--------+--------+
+14 rows in set (0.00 sec)
+
+
+3. Find sum of salary for all employees whose sal > 1000. Query should display ename,sal,Sum of salary, should be displayed according to the job.
+
+mysql> select job,ename,sal,sum(sal) over(partition by job) from emp
+    -> where sal>1000;
++-----------+--------+---------+---------------------------------+
+| job       | ename  | sal     | sum(sal) over(partition by job) |
++-----------+--------+---------+---------------------------------+
+| ANALYST   | SCOTT  | 3000.00 |                         6000.00 |
+| ANALYST   | FORD   | 3000.00 |                         6000.00 |
+| CLERK     | ADAMS  | 1100.00 |                         2400.00 |
+| CLERK     | MILLER | 1300.00 |                         2400.00 |
+| MANAGER   | JONES  | 2975.00 |                         8275.00 |
+| MANAGER   | BLAKE  | 2850.00 |                         8275.00 |
+| MANAGER   | CLARK  | 2450.00 |                         8275.00 |
+| PRESIDENT | KING   | 5000.00 |                         5000.00 |
+| SALESMAN  | ALLEN  | 1600.00 |                         5600.00 |
+| SALESMAN  | WARD   | 1250.00 |                         5600.00 |
+| SALESMAN  | MARTIN | 1250.00 |                         5600.00 |
+| SALESMAN  | TURNER | 1500.00 |                         5600.00 |
++-----------+--------+---------+---------------------------------+
+12 rows in set (0.00 sec)
+
+
+4. Find number of clerks working in each department. Display ename,job and count of that job.
+
+mysql> select ename,job,count(*) over(partition by deptno,job) from emp
+    -> where job="clerk";
++--------+-------+----------------------------------------+
+| ename  | job   | count(*) over(partition by deptno,job) |
++--------+-------+----------------------------------------+
+| MILLER | CLERK |                                      1 |
+| SMITH  | CLERK |                                      2 |
+| ADAMS  | CLERK |                                      2 |
+| JAMES  | CLERK |                                      1 |
++--------+-------+----------------------------------------+
+4 rows in set (0.00 sec)
+
+
+
+5. Find how many employees are working under same manager display mgr and the count .
+
+mysql> select mgr,count(*) over(partition by mgr) from emp
+    -> where mgr is not null
+    -> ;
++------+---------------------------------+
+| mgr  | count(*) over(partition by mgr) |
++------+---------------------------------+
+| 7566 |                               2 |
+| 7566 |                               2 |
+| 7698 |                               5 |
+| 7698 |                               5 |
+| 7698 |                               5 |
+| 7698 |                               5 |
+| 7698 |                               5 |
+| 7782 |                               1 |
+| 7788 |                               1 |
+| 7839 |                               3 |
+| 7839 |                               3 |
+| 7839 |                               3 |
+| 7902 |                               1 |
++------+---------------------------------+
+13 rows in set (0.00 sec)
+
+
+6. Calculate how many employees earn sal greater than 1500 in each dept. Query should display ename, sal, count of employees earning sal >1500. 
+ 
+mysql> select ename,sal,count(*) over(partition by deptno) from emp
+    -> where sal>1500;
++-------+---------+------------------------------------+
+| ename | sal     | count(*) over(partition by deptno) |
++-------+---------+------------------------------------+
+| CLARK | 2450.00 |                                  2 |
+| KING  | 5000.00 |                                  2 |
+| JONES | 2975.00 |                                  3 |
+| SCOTT | 3000.00 |                                  3 |
+| FORD  | 3000.00 |                                  3 |
+| ALLEN | 1600.00 |                                  2 |
+| BLAKE | 2850.00 |                                  2 |
++-------+---------+------------------------------------+
+7 rows in set (0.00 sec)
+
+
+7.Calculate the difference between max salary and minimum salary for depatno 20.  Query should display ename,sal, diff between max sal and employee's sal, diff between min sal and max sal of the dept.
+
+mysql> select ename, sal,
+    ->        max(sal) over() - sal as diff_from_max_salary,
+    ->        max(sal) over() - min(sal) over() as dept_salary_diff
+    -> from emp
+    -> where deptno = 20;
++-------+---------+----------------------+------------------+
+| ename | sal     | diff_from_max_salary | dept_salary_diff |
++-------+---------+----------------------+------------------+
+| SMITH |  800.00 |              2200.00 |          2200.00 |
+| JONES | 2975.00 |                25.00 |          2200.00 |
+| SCOTT | 3000.00 |                 0.00 |          2200.00 |
+| ADAMS | 1100.00 |              1900.00 |          2200.00 |
+| FORD  | 3000.00 |                 0.00 |          2200.00 |
++-------+---------+----------------------+------------------+
+5 rows in set (0.00 sec)

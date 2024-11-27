@@ -1,0 +1,201 @@
+1. Practise set operators
+
+
+
+2. Practice on delete set null/ cascade
+            on update set null/ cascade
+
+ON DALETE CASCADE
+
+mysql> select * from category;
++-----+-------------+-------------------------+
+| cid | cname       | description             |
++-----+-------------+-------------------------+
+|   1 | chips       | very crunchy            |
+|   2 | chocolate   | very chocolaty          |
+|   3 | snacks      | yummy                   |
+|   4 | cold drinks | thanda thanda cool cool |
++-----+-------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from product10;
++-----+--------+-------+------+------+------+
+| pid | pname  | price | qty  | cid  | sid  |
++-----+--------+-------+------+------+------+
+| 111 | pepsi  | 50.00 |   45 |    2 |   11 |
+| 112 | nachos | 50.00 |   43 |    3 |   13 |
+| 123 | lays   | 30.00 |   30 |    1 |   12 |
++-----+--------+-------+------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> delete from category
+    -> where cname="chips";
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from product10;
++-----+--------+-------+------+------+------+
+| pid | pname  | price | qty  | cid  | sid  |
++-----+--------+-------+------+------+------+
+| 111 | pepsi  | 50.00 |   45 |    2 |   11 |
+| 112 | nachos | 50.00 |   43 |    3 |   13 |
++-----+--------+-------+------+------+------+
+2 rows in set (0.00 sec)
+
+ON DELETE SET NULL
+
+mysql> select * from product10;
++-----+--------+-------+------+------+------+
+| pid | pname  | price | qty  | cid  | sid  |
++-----+--------+-------+------+------+------+
+| 111 | pepsi  | 50.00 |   45 |    2 |   11 |
+| 112 | nachos | 50.00 |   43 |    3 |   13 |
++-----+--------+-------+------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from category;
++-----+-------------+-------------------------+
+| cid | cname       | description             |
++-----+-------------+-------------------------+
+|   2 | chocolate   | very chocolaty          |
+|   3 | snacks      | yummy                   |
+|   4 | cold drinks | thanda thanda cool cool |
++-----+-------------+-------------------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from category
+    -> where cname="chocolate";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from product10;
++-----+--------+-------+------+------+------+
+| pid | pname  | price | qty  | cid  | sid  |
++-----+--------+-------+------+------+------+
+| 111 | pepsi  | 50.00 |   45 | NULL |   11 |
+| 112 | nachos | 50.00 |   43 |    3 |   13 |
++-----+--------+-------+------+------+------+
+2 rows in set (0.00 sec)
+
+
+ON UPDATE SET NULL
+
+mysql> alter table product10
+    -> drop constraint fk_cidd;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table product10
+    -> add constraint fk_cidd foreign key(cid)
+    -> references category(cid)
+    -> on update set null;
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> update category
+    -> set cid=5
+    -> where cid=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product10;
++------+------------+-------+------+------+------+
+| pid  | pname      | price | qty  | cid  | sid  |
++------+------------+-------+------+------+------+
+|   23 | dairy milk | 40.00 |   12 |    4 |   12 |
+|   32 | pepsi      | 54.00 |   23 |    4 |   13 |
+|  111 | pepsi      | 50.00 |   45 | NULL |   11 |
+|  112 | nachos     | 50.00 |   43 | NULL |   13 |
+| 1234 | pringles   | 40.00 |   24 | NULL |   12 |
++------+------------+-------+------+------+------+
+5 rows in set (0.00 sec)
+
+
+ON UPDATE CASCADE
+
+mysql> alter table product10
+    -> drop constraint fk_cidd;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table product10
+    -> add constraint fk_cidd foreign key(cid)
+    -> references category(cid)
+    -> on update cascade;
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from product10;
++------+------------+-------+------+------+------+
+| pid  | pname      | price | qty  | cid  | sid  |
++------+------------+-------+------+------+------+
+|   23 | dairy milk | 40.00 |   12 |    4 |   12 |
+|   32 | pepsi      | 54.00 |   23 |    4 |   13 |
+|  111 | pepsi      | 50.00 |   45 |   10 |   11 |
+|  112 | nachos     | 50.00 |   43 |   10 |   13 |
+| 1234 | pringles   | 40.00 |   24 |   10 |   12 |
++------+------------+-------+------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from category;
++-----+-------------+-------------------------+
+| cid | cname       | description             |
++-----+-------------+-------------------------+
+|   4 | cold drinks | thanda thanda cool cool |
+|  10 | chips       | yummy                   |
++-----+-------------+-------------------------+
+2 rows in set (0.00 sec)
+
+mysql> update category
+    -> set cid=11
+    -> where cid=10;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product10;
++------+------------+-------+------+------+------+
+| pid  | pname      | price | qty  | cid  | sid  |
++------+------------+-------+------+------+------+
+|   23 | dairy milk | 40.00 |   12 |    4 |   12 |
+|   32 | pepsi      | 54.00 |   23 |    4 |   13 |
+|  111 | pepsi      | 50.00 |   45 |   11 |   11 |
+|  112 | nachos     | 50.00 |   43 |   11 |   13 |
+| 1234 | pringles   | 40.00 |   24 |   11 |   12 |
++------+------------+-------+------+------+------+
+5 rows in set (0.00 sec)
+
+
+3. Practise auto_increment
+
+mysql> create table cat( cid int primary key auto_increment,
+    -> cname varchar(15),
+    -> description varchar(50));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into cat(cname,description) values
+    -> ("chips","very chrunchy");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cat;
++-----+-------+---------------+
+| cid | cname | description   |
++-----+-------+---------------+
+|   1 | chips | very chrunchy |
++-----+-------+---------------+
+1 row in set (0.00 sec)
+
+mysql> insert into cat(cname,description) values
+    -> ("pepsi","yummy");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cat(cname,description) values
+    -> ("nachos","good");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cat;
++-----+--------+---------------+
+| cid | cname  | description   |
++-----+--------+---------------+
+|   1 | chips  | very chrunchy |
+|   2 | pepsi  | yummy         |
+|   3 | nachos | good          |
++-----+--------+---------------+
+3 rows in set (0.00 sec)

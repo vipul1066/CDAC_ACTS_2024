@@ -1,0 +1,150 @@
+Q1
+
+mysql> delimiter $
+mysql> create procedure total_sal(mempno int,out msal int)
+    -> begin
+    -> select sal+ifnull(comm,0) into msal from emp where empno = mempno;
+    -> end $
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call total_sal(7521,@k);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @k;
++------+
+| @k   |
++------+
+| 1750 |
++------+
+1 row in set (0.00 sec)
+
+mysql> call total_sal(7698,@k);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @k;
++------+
+| @k   |
++------+
+| 2850 |
++------+
+1 row in set (0.00 sec)
+
+
+Q.2
+
+mysql> delimiter  $
+mysql> create procedure comp_sal(mempno1 int, mempno2 int)
+    -> begin
+    -> declare x int;
+    -> declare y int;
+    -> select sal into x from emp where empno = mempno1;
+    -> select sal into y from emp where empno = mempno2;
+    -> if x>y
+    -> then
+    -> select ename, sal , job from emp where empno = mempno1;
+    -> else
+    -> select ename, sal, job from emp where empno = mempno2;
+    -> end if;
+    -> end $
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call comp_sal(7499,7521);
++-------+---------+----------+
+| ename | sal     | job      |
++-------+---------+----------+
+| ALLEN | 1600.00 | SALESMAN |
++-------+---------+----------+
+1 row in set (0.00 sec)
+
+
+Q.3
+
+mysql> delimiter  $
+mysql> create procedure comp_sal(mempno1 int, mempno2 int)
+    -> begin
+    -> declare x int;
+    -> declare y int;
+    -> select sal into x from emp where empno = mempno1;
+    -> select sal into y from emp where empno = mempno2;
+    -> if x>y
+    -> then
+    -> select ename, sal , job from emp where empno = mempno1;
+    -> else
+    -> select ename, sal, job from emp where empno = mempno2;
+    -> end if;
+    -> end $
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call comp_sal(7499,7521);
++-------+---------+----------+
+| ename | sal     | job      |
++-------+---------+----------+
+| ALLEN | 1600.00 | SALESMAN |
++-------+---------+----------+
+1 row in set (0.00 sec)
+
+
+Q.4
+
+mysql> delimiter $
+mysql> create procedure sal_1(mempno int)
+    -> begin
+    -> if mempno in (select empno from emp)
+    -> then
+    -> select sal from emp where empno = mempno;
+    -> else
+    -> select 0;
+    -> end if;
+    -> end $
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call sal_1(7844);
++---------+
+| sal     |
++---------+
+| 1500.00 |
++---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call sal_1(7840);
++---+
+| 0 |
++---+
+| 0 |
++---+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+Q.5
+
+  
+   mysql>    delimiter $
+mysql>    create function email(mename varchar(12), mjob varchar(9), mdeptno int) returns varchar(50)
+    ->    begin
+    ->    declare x varchar(50);
+    ->    set x = concat(lower(substr(mename,2,2)),substr(mjob,length(mjob)-1,2),mdeptno,'@mycompany.com');
+    ->    return x;
+    ->    end $
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>    delimiter ;
+mysql>    select ename, job, deptno, email(ename, job, deptno) from emp where job = 'salesman';
++--------+----------+--------+---------------------------+
+| ename  | job      | deptno | email(ename, job, deptno) |
++--------+----------+--------+---------------------------+
+| ALLEN  | SALESMAN |     30 | llAN30@mycompany.com      |
+| WARD   | SALESMAN |     30 | arAN30@mycompany.com      |
+| MARTIN | SALESMAN |     30 | arAN30@mycompany.com      |
+| TURNER | SALESMAN |     30 | urAN30@mycompany.com      |
++--------+----------+--------+---------------------------+
+4 rows in set (0.00 sec)
+
+

@@ -1,0 +1,19 @@
+
+
+.resume{
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.education{
+    display: flex;
+    align-content: space-evenly;
+    align-items: flex-start;
+}
+
+.content{
+    margin-left: 40px;
+}
+

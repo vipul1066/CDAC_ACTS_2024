@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="bg-light py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Welcome To CDAC</h2>
+                <h4>Time: <span id="time"></span></h4>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>Shopping Cart</h3>
+            <h5>Items in Cart: <span id="count">0</span></h5>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-warning">
+                <tr>
+                    <th>Images</th>
+                    <th>Description</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRCO-EK1ZOy6-1YbZdZNLxkpKxqzqSQO47b9K_gj1do0JtMsYwFmUfv7DUjytdP8vt6_9vtkhY0dkEcJXmvrm-h7_TFYAQNIpSkYzhz7d1MebhyCZxogUO_rA&usqp=CAE"
+                            alt="Wireless Headphones" class="img-fluid" style="max-width: 50px;">
+                    </td>
+                    <td>Stylish Wireless Headphones with Noise Cancellation</td>
+                    <td id="rate">300</td>
+                    <td>
+                        <input type="number" id="qty" class="form-control" min="1" max="10" placeholder="2">
+                        <button class="btn btn-primary mt-2" onclick="calculateTotal('qty','rate','total0')">Submit</button>
+                    </td>
+                    <td><span id="total0"></span></td>
+                    <td><input type="checkbox" id="select1" onclick="updateCartTotal()"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTnZriSFn2J0zhCD4NtVh4kDBlMetV-MsMhhGkW_zb4UfqNiSY7obbPPxafpvC37lVInb8gBYLVUJVDf-ZOqodIZKj0JiH79gdQcxQI8G8p-jv-5VfYrDsIUA&usqp=CAE"
+                            alt="Gaming Mouse" class="img-fluid" style="max-width: 50px;">
+                    </td>
+                    <td>Ergonomic Gaming Mouse with RGB Lighting</td>
+                    <td id="rate1">500</td>
+                    <td>
+                        <input type="number" id="qty1" class="form-control" min="1" max="10" placeholder="2">
+                        <button class="btn btn-primary mt-2" onclick="calculateTotal('qty1','rate1','total1')">Submit</button>
+                    </td>
+                    <td><span id="total1"></span></td>
+                    <td><input type="checkbox" id="select1" onchange="updateCartTotal()"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500" alt="Book Cover"
+                            class="img-fluid" style="max-width: 50px;">
+                    </td>
+                    <td>Inspirational Self-Help Book for Personal Growth</td>
+                    <td id="rate2">100</td>
+                    <td>
+                        <input type="number" id="qty2" class="form-control" min="1" max="10" placeholder="4">
+                        <button class="btn btn-primary mt-2" onclick="calculateTotal('qty2','rate2','total2')">Submit</button>
+                    </td>
+                    <td><span id="total2"></span></td>
+                    <td><input type="checkbox" id="select1" onchange="updateCartTotal()"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQqZcZfbUYdSbdiwYQyGtN05om3N4E35VLFyEP8GUSHdnVhm2T0Jh4tRMyeE5TzF273tV2zo49lKNcRwibm1wblvEyBjXlZvB0iRD97ugXpMfq0uurO4Dsz&usqp=CAE"
+                            alt="Leather Backpack" class="img-fluid" style="max-width: 50px;">
+                    </td>
+                    <td>Classic Leather Backpack with Multiple Compartments</td>
+                    <td id="rate3">125</td>
+                    <td>
+                        <input type="number" id="qty3" class="form-control" min="1" max="10" placeholder="4">
+                        <button class="btn btn-primary mt-2" onclick="calculateTotal('qty3','rate3','total3')">Submit</button>
+                    </td>
+                    <td><span id="total3"></span></td>
+                    <td><input type="checkbox" id="select1" onchange="updateCartTotal()"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSPT6ol7JehARJzWqXeUM3nHIi1ZbRMveFO1aC57131nD0tSHbZC7nL_8I9I19vulyTVArLtULd4fcMEqhSYyOQX1Q_Cepp4V88N_ZsmQZafx3qxKNISPo1&usqp=CAE"
+                            alt="Hardcover Notebook" class="img-fluid" style="max-width: 50px;">
+                    </td>
+                    <td>Elegant Notebook with Hardcover and Premium Pages</td>
+                    <td id="rate4">400</td>
+                    <td>
+                        <input type="number" id="qty4" class="form-control" min="1" max="10" placeholder="4">
+                        <button class="btn btn-primary mt-2" onclick="calculateTotal('qty4','rate4','total4')">Submit</button>
+                    </td>
+                    <td><span id="total4"></span></td>
+                    <td><input type="checkbox" id="select1" onchange="updateCartTotal()"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4 class="text-primary">Total Cart Amount: Rs <span id="totalamount">0</span>/-</h4>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

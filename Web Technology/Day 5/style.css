@@ -1,0 +1,24 @@
+
+
+.table{
+    border: 1px ;
+    width: 25%;
+}
+
+.head{
+    display: flex;
+}
+.count{
+    margin-left: 50%;
+
+}
+
+#employeeTable{
+    border: 1px solid black;
+}
+th{
+    border: 1px solid black;
+}
+.showTable{
+    margin-top: 10px;
+}

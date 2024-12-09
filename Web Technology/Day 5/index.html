@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <th>
+                <div class="head">
+                    <div><b>Employee System</b></div>
+                    <div class="count">Employee Count:<span id="count">0</span></div>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <br>
+    <form action="">
+    <label for="id">ID</label>
+    <input type="number" id="id" name="id" placeholder="Enter ID" required>
+    <span id="duplicateId"></span>
+    <br><br>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter Name" required><br><br>
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" placeholder="Enter City" required><br><br>
+
+    
+    <button id="add" type="button" onclick="addEmployee()">Add Employee</button>
+    <button id="display" type="button" onclick="displayEmployees()">Display Employees</button><br><br>
+    </form>
+
+    <div id="showTable">
+    <table id="employeeTable">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Action</th>
+        </tr>
+       
+    </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+    {
+        "dept_no": 1,
+        "dept_name": "Human Resources",
+        "dept_location": "New York"
+    },
+    {
+        "dept_no": 2,
+        "dept_name": "Engineering",
+        "dept_location": "Los Angeles"
+    },
+    {
+        "dept_no": 3,
+        "dept_name": "Sales",
+        "dept_location": "Chicago"
+    }
+]
